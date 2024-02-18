@@ -4,45 +4,44 @@ import generateTokenAndSetCookie from "../utils/generateJwtToken.js";
 
 export default class AuthController {
   async signUp(req, res) {
-    // console.log(req.body);
-    const { name, userName, password, gender } = req.body;
-    const user = await User.findOne({ userName });
-    if (user) {
-      return res.status(400).send("User Already Exist!!!!!!!");
-    }
-
-    // Hashing Password
-    const salt = await bcrypt.genSalt(12);
-    const hashedPassword = await bcrypt.hash(password, salt);
-
-    const boyPic = `https://avatar.iran.liara.run/public/boy?username=${userName}`;
-    const girlPic = `https://avatar.iran.liara.run/public/girl?username=${userName}`;
-    const profilePic = gender === "Male" ? boyPic : girlPic;
-
-    const newUser = new User({
-      name,
-      userName,
-      password: hashedPassword,
-      gender,
-      profilePic,
-    });
-
-    if (newUser) {
-      await newUser.save();
-      console.log(newUser);
-      res.status(201).json({
-        _id: newUser._id,
-        name: newUser.name,
-        userName: newUser.userName,
-        profilePic: newUser.profilePic,
-      });
-    } else {
-      res.status(400).json({
-        error: "Something went wrong",
-      });
-    }
-
     try {
+      // console.log(req.body);
+      const { name, userName, password, gender } = req.body;
+      const user = await User.findOne({ userName });
+      if (user) {
+        return res.status(400).send("User Already Exist!!!!!!!");
+      }
+
+      // Hashing Password
+      const salt = await bcrypt.genSalt(12);
+      const hashedPassword = await bcrypt.hash(password, salt);
+
+      const boyPic = `https://avatar.iran.liara.run/public/boy?username=${userName}`;
+      const girlPic = `https://avatar.iran.liara.run/public/girl?username=${userName}`;
+      const profilePic = gender === "Male" ? boyPic : girlPic;
+
+      const newUser = new User({
+        name,
+        userName,
+        password: hashedPassword,
+        gender,
+        profilePic,
+      });
+
+      if (newUser) {
+        await newUser.save();
+        console.log(newUser);
+        res.status(201).json({
+          _id: newUser._id,
+          name: newUser.name,
+          userName: newUser.userName,
+          profilePic: newUser.profilePic,
+        });
+      } else {
+        res.status(400).json({
+          error: "Something went wrong",
+        });
+      }
     } catch (err) {
       console.log("Error in Sign Up Controller", err);
       res.status(500).json({
