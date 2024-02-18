@@ -1,4 +1,5 @@
 import User from "../models/user.model.js";
+import bcrypt from "bcryptjs";
 
 export default class AuthController {
   async login(req, res) {
@@ -16,6 +17,10 @@ export default class AuthController {
       return res.status(400).send("User Already Exist!!!!!!!");
     }
 
+    // Hashing Password
+    const salt = await bcrypt.genSalt(12);
+    const hashedPassword = await bcrypt.hash(password, salt);
+
     const boyPic = `https://avatar.iran.liara.run/public/boy?username=${userName}`;
     const girlPic = `https://avatar.iran.liara.run/public/girl?username=${userName}`;
     const profilePic = gender === "Male" ? boyPic : girlPic;
@@ -23,7 +28,7 @@ export default class AuthController {
     const newUser = new User({
       name,
       userName,
-      password,
+      password: hashedPassword,
       gender,
       profilePic,
     });
