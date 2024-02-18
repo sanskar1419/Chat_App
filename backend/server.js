@@ -7,10 +7,7 @@ const app = new express();
 dotenv.config();
 const PORT = process.env.PORT || 9000;
 
-app.get("/", (req, res) => {
-  res.send("Welcome to chat app");
-});
-
+app.use(express.json());
 app.use("/api/auth", authRouter);
 
 app.listen(PORT, () => {
