@@ -1,5 +1,6 @@
 import React from "react";
 import GenderSelection from "./GenderSelection";
+import { Link } from "react-router-dom";
 
 const SignUp = () => {
   return (
@@ -52,12 +53,12 @@ const SignUp = () => {
           </div>
           {/* Gender selection component will be added here */}
           <GenderSelection />
-          <a
+          <Link
             className="text-sm hover:underline hover:text-blue-600 mt-2 inline-block text-center"
-            href="#"
+            to="/login"
           >
             Already have an account?
-          </a>
+          </Link>
 
           <div>
             <button className="btn btn-block btn-sm mt-2 border border-slate-700">
