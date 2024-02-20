@@ -31,6 +31,7 @@ export default class AuthController {
       if (newUser) {
         await newUser.save();
         console.log(newUser);
+        generateTokenAndSetCookie(newUser._id, res);
         res.status(201).json({
           _id: newUser._id,
           name: newUser.name,
