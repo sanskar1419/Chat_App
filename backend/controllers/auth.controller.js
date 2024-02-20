@@ -9,7 +9,7 @@ export default class AuthController {
       const { name, userName, password, gender } = req.body;
       const user = await User.findOne({ userName });
       if (user) {
-        return res.status(400).send("User Already Exist!!!!!!!");
+        return res.status(400).json({ error: "User Already Exist" });
       }
 
       // Hashing Password
